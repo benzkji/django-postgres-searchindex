@@ -50,7 +50,8 @@ in searchindex key and kwargs.
 
 ### Define sources
 
-Example, hopefully self explaining.
+Example, hopefully self explaining. Place this code in `index_sources.py` of your app, and
+it will be autodiscovered.
 
 ```
 from django.utils.html import strip_tags

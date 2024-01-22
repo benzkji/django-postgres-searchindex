@@ -79,7 +79,27 @@ class NewsIndexSource(IndexSource / MultiLanguageIndexSource):
 
 Run  `./manage.py postgres_searchindex_update` to update/build the index.
 
-If you want to control how things get indexed, you can check
+```
+» ./manage.py postgres_searchindex_update
+====================================
+Updating index "de" with kwargs {'language': 'de'}
+Person. Indexing 5 entries
+> Done. Removed from index: 0
+Project. Indexing 66 entries
+> Done. Removed from index: 0
+Media. Indexing 36 entries
+> Done. Removed from index: 2
+====================================
+Updating index "fr" with kwargs {'language': 'fr'}
+Person. Indexing 5 entries
+> Done. Removed from index: 0
+Project. Indexing 66 entries
+> Done. Removed from index: 0
+Media. Indexing 36 entries
+> Done. Removed from index: 2
+```
+
+If you want to control how things were indexed, you can check
 your `IndexEntry` instances in Django admin.
 
 ### Search!

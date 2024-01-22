@@ -138,11 +138,4 @@ The async signal processor will require you to have celery configured.
 
 ## TODO
 
-- properly handle removal of instances
-- use trigram search?
-- create an index for `content` and title
-- instant update index via signals (update/delete models)
-  - with celery? 
-  - https://www.world-of-knives.ch/de/messershop/m-88-acier-japonais/
-  - manage command: INdexEntry.objects.filter(original=None).delete() doesnt work?
-    check each model...
+See open issues.

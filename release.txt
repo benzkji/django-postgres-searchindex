@@ -1,0 +1,83 @@
+# dont change any files besides CHANGELOG.txt and __init__.py during procedure.
+
+### V2: no git flow, main branch pushes trigger github actions that then makes the release on PYPI
+
+# update everything
+git checkout main
+# make sure we're up to date
+git pull ; git pull upstream main
+git checkout develop
+# merge release changes
+git merge main
+
+# version bump in postgres_searchindex/__init__.py
+# last chance for changelog
+git commit -am'x.x.x release'
+git tag x.x.x
+
+# got to main branch
+git checkout main
+# merge
+git merge develop
+
+# push (and wait for build/publish)
+git push --all; git push --tags
+git push upstream --all; git push upstream --tags
+
+git checkout develop
+add next version and DEV to version
+
+
+### V1: NO git flow, manual publishing
+
+# update everything
+git checkout release
+# make sure we're up to date
+git pull ; git pull upstream release
+git checkout develop
+# merge release changes
+git merge release
+
+# version bump in postgres_searchindex/__init__.py
+# last chance for changelog
+git commit -am'x.x.x release'
+git tag x.x.x
+
+# got to release branch
+git checkout release
+# merge
+git merge develop
+
+# push & build
+git push --all; git push --tags
+git push upstream --all; git push upstream --tags
+python setup.py sdist && python setup.py bdist_wheel --universal
+
+# upload
+twine upload dist/* -r pypi
+
+# back to normal
+git checkout develop
+
+# version bump to x.x.xDEV
+
+
+### V0: git flow, manual publishing
+
+# git flow release start xxxx
+# version bump in postgres_searchindex/__init__.py
+# last chance to update CHANGELOG!
+# git commit -am'version bump / changelog'
+# git flow release finish xxxx
+# git push --all; git push --tags
+# upstream: depends
+# git push upstream --all; git push upstream --tags
+# python setup.py sdist && python setup.py bdist_wheel --universal
+# twine upload dist/* -r pypitest
+# twine upload dist/* -r pypi
+# version bump to ne.xt.version.dev
+
+
+# legacy
+# python setup.py register -r pypitest && twine upload dist/* -r pypitest
+# python setup.py register -r pypi && twine upload dist/* -r pypi

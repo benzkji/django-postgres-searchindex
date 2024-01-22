@@ -1,0 +1,2 @@
+Everything in postgres, accessible via Django ORM, using
+postgres fullext search capabilites

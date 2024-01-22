@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="content search-list">
+
+        <form class="search-form" method="get" action="./">
+            <div class="search-form__inner">
+                {{ form.q }}
+                <button type="submit"><img src="{% static "kistlervogt/img/magnifier.svg" %}" alt="Suchen" /></button>
+            </div>
+        </form>
+
+        {% for object in object_list %}
+
+            <a class="search-result" href="{{ object.url }}">
+                <div class="search-result__inner">
+                    <div class="search-result__image">
+                        {% if object.original.image %}
+                            {% thumbnail object.original.image 300x300 as resized %}
+                            <img src="{{ resized.url }}" alt="{{ object.title }}" />
+                        {% endif %}
+                    </div>
+                    <div class="search-result__content">
+                        <h3>
+                            {{ object.title }}
+                        </h3>
+                        <p>
+                            {{ object.content|truncatechars:150 }}
+                        <p>
+                        </p>
+                            {{ object.url }}
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+        {% empty %}
+            {% if request.GET.q %}
+            <div class="search-result">
+                <div class="search-result__inner">
+                    <h3>
+                        Nichts gefunden!
+                    </h3>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

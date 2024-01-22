@@ -28,7 +28,9 @@ http://docs.python.org/2/distutils/sourcedist.html
 
 """
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
+
 import postgres_searchindex as app
 
 
@@ -38,21 +40,21 @@ def read(fname):
 
 
 install_requires = [
-    'django',
+    "django",
 ]
 
 
 setup(
     name="django-postgres-searchindex",
     version=app.__version__,
-    description=read('DESCRIPTION'),
-    long_description=read('README.md'),
+    description=read("DESCRIPTION"),
+    long_description=read("README.md"),
     long_description_content_type="text/markdown",
-    license='The MIT License',
-    platforms=['OS Independent'],
-    keywords='django, redirect',
-    author='Ben Stähli',
-    author_email='bnzk@bnzk.ch',
+    license="The MIT License",
+    platforms=["OS Independent"],
+    keywords="django, search, index, postgres fts",
+    author="Ben Stähli",
+    author_email="bnzk@bnzk.ch",
     url="https://github.com/bnzk/django-postgres-searchindex",
     packages=find_packages(),
     include_package_data=True,

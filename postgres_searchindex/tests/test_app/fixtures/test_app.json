@@ -1,0 +1,20 @@
+[
+  {
+    "fields": {
+      "richtext": "<p>None</p>",
+      "richtext_second": "<h1>what</h1>",
+      "title": "Test 1 One"
+    },
+    "model": "test_app.testmodel",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "richtext": "<p>Two </p>",
+      "richtext_second": "<p>Threee</p>",
+      "title": "Testing Two"
+    },
+    "model": "test_app.testmodel",
+    "pk": 2
+  }
+]

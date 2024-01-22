@@ -1,11 +1,9 @@
 # mainly to have migrations compatible with the oldest supported django version
-django<3
-django-cms<3.8
+django<4
+django-cms<3.9
 
-# test utils, so you can do a quick manage.py test without tox (that is, included as well)
+# dev & test utils, so you can do a quick manage.py test without tox (that is, included as well)
+pre-commit
 coverage
 django-coverage
-factory_boy
-mock
-selenium
 tox

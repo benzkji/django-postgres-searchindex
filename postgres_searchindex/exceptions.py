@@ -1,6 +1,6 @@
-class SourceAlreadyRegistered(Exception):
+class SourceAlreadyRegisteredError(Exception):
     pass
 
 
-class SourceNotRegistered(Exception):
+class SourceNotRegisteredError(Exception):
     pass

@@ -15,7 +15,7 @@ class Command(BaseCommand):
             self.stdout.write(
                 f"Updating index \"{index_key}\" with kwargs {index.get('kwargs', {})}"
             )
-            for source_name, source_cls in source_pool.get_sources().items():
+            for source_cls in source_pool.get_sources().values():
                 source = source_cls(**index.get("kwargs", {}))
                 self.stdout.write(
                     f"{source.model.__name__}. "

@@ -4,8 +4,8 @@ from django.utils.module_loading import autodiscover_modules
 
 from postgres_searchindex.base import IndexSource
 from postgres_searchindex.exceptions import (
-    SourceAlreadyRegistered,
-    SourceNotRegistered,
+    SourceAlreadyRegisteredError,
+    SourceNotRegisteredError,
 )
 from postgres_searchindex.models import IndexEntry
 
@@ -37,7 +37,7 @@ class SourcePool:
             )
         source_name = source.__name__
         if source_name in self.sources:
-            raise SourceAlreadyRegistered(
+            raise SourceAlreadyRegisteredError(
                 "Cannot register {!r}, an source with this name ({!r}) is already "
                 "registered.".format(source, source_name)
             )
@@ -66,7 +66,7 @@ class SourcePool:
         """
         source_name = source.__name__
         if source_name not in self.sources:
-            raise SourceNotRegistered("The source %r is not registered" % source)
+            raise SourceNotRegisteredError("The source %r is not registered" % source)
         del self.sources[source_name]
 
     def get_sources(self):

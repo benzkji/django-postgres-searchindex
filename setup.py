@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 """
 Python setup file for the postgres_searchindex app.
 
@@ -36,7 +35,8 @@ import postgres_searchindex as app
 
 def read(fname):
     # read the contents of a text file
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+    with open(os.path.join(os.path.dirname(__file__), fname)) as file:
+        return file.read()
 
 
 install_requires = [

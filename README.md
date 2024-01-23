@@ -14,6 +14,12 @@ During conception, I was thinking about developing a backend for django-haystack
 decided against, to be able to develop from the ground up, as simple as possible. The 
 project could still provide a haystack backend one day, but it was just not my priority.
 
+## Features
+
+- Searchindex in PostgreSQL
+- No dependencies besides Django and PostgreSQL
+- contrib.djangocms, for easy indexing of django-cms sites
+
 ## Quickstart
 
 Describe, index, search.
@@ -50,8 +56,7 @@ in searchindex key and kwargs.
 
 ### Define sources
 
-Example, hopefully self explaining. Place this code in `index_sources.py` of your app, and
-it will be autodiscovered.
+Example, hopefully self explaining. 
 
 ```
 from django.utils.html import strip_tags
@@ -74,6 +79,7 @@ class NewsIndexSource(IndexSource / MultiLanguageIndexSource):
     def get_queryset(self):
         return self.model.objects.published()
 ```
+Place this code in `index_sources.py` of your app, and it will be autodiscovered.
 
 ### Populate the index
 

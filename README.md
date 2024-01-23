@@ -28,7 +28,7 @@ Describe, index, search.
 
 Default value, simplest possible configuration:
 
-```
+```python
 POSTGRES_SEARCHINDEX = {
     "default": {},
 }
@@ -36,7 +36,7 @@ POSTGRES_SEARCHINDEX = {
 
 Example for a multilanguage setup:
 
-```
+```python
 POSTGRES_SEARCHINDEX = {
     "de": {
         "kwargs": {
@@ -58,7 +58,7 @@ in searchindex key and kwargs.
 
 Example, hopefully self explaining. 
 
-```
+```python
 from django.utils.html import strip_tags
 from postgres_searchindex.base import IndexSource / MultiLanguageIndexSource
 from postgres_searchindex.source_pool import source_pool
@@ -85,7 +85,7 @@ Place this code in `index_sources.py` of your app, and it will be autodiscovered
 
 Run  `./manage.py postgres_searchindex_update` to update/build the index.
 
-```
+```shell
 » ./manage.py postgres_searchindex_update
 ====================================
 Updating index "de" with kwargs {'language': 'de'}
@@ -113,7 +113,7 @@ your `IndexEntry` instances in Django admin.
 You can now search in your index. You are free to use [Django's builtin fulltext](https://docs.djangoproject.com/en/dev/ref/contrib/postgres/search/)
 features as you like - as in the following example, or in a way more advanced manner.
 
-```
+```python
 from django.contrib.postgres.search import SearchVector
 from postgres_searchindex.models import IndexEntry
 

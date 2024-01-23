@@ -142,6 +142,13 @@ There are ~~two~~ currently ~~one~~ none (not yet) builtin processors:
 The async signal processor will require you to have celery configured.
 
 
+## Inspired
+
+I used django-haystack for a decade, and I really like the concept. Building my first index though, 
+was quite time intensive. After development of haystack and also some of it's backends have sometimes stalled,
+I was regularly thinking about writing my own search index, with PostgreSQL only.
+
+
 ## TODO
 
 See open issues.

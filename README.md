@@ -135,9 +135,9 @@ Either you'll regularly run `./manage.py postgres_searchindex_update`, or you'll
 implement a realtime or near realtime solution, with signals, throug the 
 `POSTGRES_SEARCHINDEX_SIGNAL_PROCESSOR` setting. 
 
-There are ~~two~~ currently one builtin processors:
+There are ~~two~~ currently ~~one~~ none (not yet) builtin processors:
  - `postgres_searchindex.signal_processors.RealtimeSyncedSignalProcessor`
- - To be done! `postgres_searchindex.signal_processors.RealtimeCelerySignalProcessor`
+ - `postgres_searchindex.signal_processors.RealtimeCelerySignalProcessor`
 
 The async signal processor will require you to have celery configured.
 

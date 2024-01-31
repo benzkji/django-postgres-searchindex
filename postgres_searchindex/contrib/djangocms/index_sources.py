@@ -5,6 +5,7 @@ from django.utils import timezone
 from postgres_searchindex.base import MultiLanguageIndexSource
 from postgres_searchindex.contrib.djangocms.base import PlaceholderIndexSourceMixin
 from postgres_searchindex.source_pool import source_pool
+from postgres_searchindex import conf
 
 
 class TitleIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
@@ -27,8 +28,7 @@ class TitleIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
         )
         text = ""
         for base_plugin in plugins:
-            text = " " + self.get_plugin_search_text(base_plugin, request)
-
+            text += " " + self.get_plugin_search_text(base_plugin, request)
         return text
 
     def get_queryset(self):
@@ -49,4 +49,5 @@ class TitleIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
         return queryset.distinct()
 
 
-source_pool.register(TitleIndexSource)
+if conf.USE_CMS_INDEX:
+    source_pool.register(TitleIndexSource)

@@ -8,7 +8,6 @@ POSTGRES_SEARCHINDEX = getattr(
     },
 )
 
-
 LANGUAGE_2_PGCONFIG = getattr(
     settings,
     "POSTGRES_SEARCHINDEX_LANGUAGE_2_PGCONFIG",
@@ -17,4 +16,10 @@ LANGUAGE_2_PGCONFIG = getattr(
         "de": "german",
         "fr": "french",
     },
+)
+
+USE_CMS_INDEX = getattr(
+    settings,
+    "POSTGRES_SEARCHINDEX_USE_CMS_INDEX",
+    True,
 )

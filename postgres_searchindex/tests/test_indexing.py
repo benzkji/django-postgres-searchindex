@@ -16,13 +16,19 @@ class IndexingTests(TestCase):
     def tearDown(self):
         pass
 
-    def test_indexing(self):
+    def test_rebuild_index(self):
+        call_command("postgres_searchindex_rebuild", "--force")
+        qs = IndexEntry.objects.all()
+        self.assertEqual(qs.count(), 2)
+        self.assertEqual(qs.filter(title__contains="One").count(), 1)
+
+    def test_update_index(self):
         call_command("postgres_searchindex_update")
         qs = IndexEntry.objects.all()
         self.assertEqual(qs.count(), 2)
         self.assertEqual(qs.filter(title__contains="One").count(), 1)
 
-    def test_indexing_unpublish(self):
+    def test_update_index_unpublish(self):
         """
         unpublishing something requires index update
         """
@@ -35,7 +41,7 @@ class IndexingTests(TestCase):
         self.assertEqual(qs.count(), 1)
         self.assertEqual(qs.filter(title__contains="One").count(), 0)
 
-    def test_indexing_deletion(self):
+    def test_update_index_deletion(self):
         """
         generic relations do cascade deletion
         """

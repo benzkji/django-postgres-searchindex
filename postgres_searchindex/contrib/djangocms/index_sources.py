@@ -2,10 +2,10 @@ from cms.models import Title
 from django.db.models import Q
 from django.utils import timezone
 
+from postgres_searchindex import conf
 from postgres_searchindex.base import MultiLanguageIndexSource
 from postgres_searchindex.contrib.djangocms.base import PlaceholderIndexSourceMixin
 from postgres_searchindex.source_pool import source_pool
-from postgres_searchindex import conf
 
 
 class TitleIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):

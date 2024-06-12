@@ -146,8 +146,7 @@ The async signal processor will require you to have celery configured.
 
 ## contrib.djangocms
 
-A few tools to speed up indexing of django-cms sites. If you want to use the search app hook and/or index your
-cms pages, you'll need to
+A few tools to speed up indexing of django-cms sites.
 
 ### AppHook
 
@@ -159,7 +158,7 @@ basic search form, and you can override the template `postgres_searchindex/searc
 
 Add `postgres_searchindex.contrib.djangocms` to `settings.INSTALLED_APPS`.  
 And set `settings.POSTGRES_SEARCHINDEX_USE_CMS_INDEX = True` to have your django-cms pages indexed automagically (with the next call of
-`./manage.py postgres_searchindex_rebuild`). See also 
+`./manage.py postgres_searchindex_rebuild`). 
 
 ### Indexing models with a PlaceholderField
 
@@ -189,7 +188,7 @@ class EventIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
         return self.model.objects.published()
 ```
 
-## Inspired
+## Inspired by haystack
 
 I used django-haystack for a decade, and I really like the concept. Building my first index though, 
 was quite time intensive. After development of haystack and also some of it's backends have sometimes stalled,

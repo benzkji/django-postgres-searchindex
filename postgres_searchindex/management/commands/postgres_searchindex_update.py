@@ -1,10 +1,10 @@
 from django.core.management import BaseCommand
 
-from ._utils import update_indexes
+from postgres_searchindex.management.indexing import update_indexes
 
 
 class Command(BaseCommand):
-    help = "Update/build index"
+    help = "update index"
 
     def handle(self, *args, **options):
         update_indexes()

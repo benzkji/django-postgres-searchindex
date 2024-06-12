@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 @apphook_pool.register
 class SearchAppHook(CMSApp):
-    name = _("Search Form")
+    name = _("Search Form (postgres_searchindex)")
     # menus = [CategoryMenu, ]
 
     def get_urls(self, page=None, language=None, **kwargs):

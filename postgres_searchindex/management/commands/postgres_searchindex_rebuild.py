@@ -1,11 +1,10 @@
-# commands/reindex_indexes.py
 from django.core.management import BaseCommand
 
-from ._utils import delete_indexes, update_indexes
+from postgres_searchindex.management.indexing import delete_indexes, update_indexes
 
 
 class Command(BaseCommand):
-    help = "Reindexing postgres "
+    help = "rebuild index (first delete, then update)"
 
     def add_arguments(self, parser):
         parser.add_argument(

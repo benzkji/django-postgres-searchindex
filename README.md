@@ -59,12 +59,13 @@ in searchindex key and kwargs.
 Example, hopefully self explaining. 
 
 ```python
+import html
+
 from django.utils.html import strip_tags
 from postgres_searchindex.base import IndexSource / MultiLanguageIndexSource
 from postgres_searchindex.source_pool import source_pool
 
 from news.models import News
-
 
 @source_pool.register
 class NewsIndexSource(IndexSource / MultiLanguageIndexSource):
@@ -74,11 +75,12 @@ class NewsIndexSource(IndexSource / MultiLanguageIndexSource):
         return strip_tags(obj.description)
 
     def get_content(self, obj):
-        return strip_tags(obj.description)
+        return html.unescape(strip_tags(obj.description))
 
     def get_queryset(self):
         return self.model.objects.published()
 ```
+
 Place this code in `index_sources.py` of your app, and it will be autodiscovered.
 
 ### Populate the index
@@ -141,6 +143,51 @@ There are ~~two~~ currently ~~one~~ none (not yet) builtin processors:
 
 The async signal processor will require you to have celery configured.
 
+
+## contrib.djangocms
+
+A few tools to speed up indexing of django-cms sites. If you want to use the search app hook and/or index your
+cms pages, you'll need to
+
+### AppHook
+
+Add `postgres_searchindex.contrib.djangocms` to `settings.INSTALLED_APPS`.
+Configure one of your cms pages to use the app hook "Search Form (postgres_searchindex)". It will provide a very 
+basic search form, and you can override the template `postgres_searchindex/search.html` if you want.
+
+### Indexing of cms pages
+
+Add `postgres_searchindex.contrib.djangocms` to `settings.INSTALLED_APPS`.  
+And set `settings.POSTGRES_SEARCHINDEX_USE_CMS_INDEX = True` to have your django-cms pages indexed automagically (with the next call of
+`./manage.py postgres_searchindex_rebuild`). See also 
+
+### Indexing models with a PlaceholderField
+
+Example `Event` model, with a `PlaceholderField` called "content": 
+
+```python
+import html
+
+from django.utils.html import strip_tags
+from postgres_searchindex.base import MultiLanguageIndexSource
+from postgres_searchindex.contrib.djangocms.base import PlaceholderIndexSourceMixin
+
+from .models import Event
+
+@source_pool.register
+class EventIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
+    model = Event
+    placeholder_field_name = "content"
+
+    def get_content(self, obj):
+        c = strip_tags(obj.description)  # prepend with preview/description
+        c += super().get_content(obj)  # render placeholder
+        c = html.unescape(c)  # convert &amp; to "
+        return c
+
+    def get_queryset(self):
+        return self.model.objects.published()
+```
 
 ## Inspired
 

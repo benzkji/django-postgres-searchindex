@@ -170,6 +170,7 @@ import html
 from django.utils.html import strip_tags
 from postgres_searchindex.base import MultiLanguageIndexSource
 from postgres_searchindex.contrib.djangocms.base import PlaceholderIndexSourceMixin
+from postgres_searchindex.source_pool import source_pool
 
 from .models import Event
 

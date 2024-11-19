@@ -25,7 +25,7 @@ class PlaceholderIndexSourceMixin:
         plugins = self.get_plugin_queryset(language).filter(placeholder=placeholder)
         text = ""
         for base_plugin in plugins:
-            text += self.get_plugin_search_text(base_plugin, request)
+            text += " " + self.get_plugin_search_text(base_plugin, request)
         return text
 
     def get_plugin_search_text(self, base_plugin, request):

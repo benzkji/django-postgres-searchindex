@@ -5,6 +5,11 @@ from django.template import Engine, RequestContext
 from django.test import RequestFactory
 from django.utils.html import strip_tags
 
+try:
+    from lxml.html import clean as lxml_clean
+    from lxml.html import fragment_fromstring, tostring
+except ImportError:
+    lxml_clean = None
 
 def _render_plugin(plugin, context, renderer=None):
     if renderer:
@@ -53,6 +58,15 @@ def get_plugin_index_content(base_plugin, request):
             renderer = context.get("cms_content_renderer")
 
         plugin_content = _render_plugin(instance, context, renderer)
+        if lxml_clean:
+            # defaults: most strict possible!
+            lxml_cleaner = lxml_clean.Cleaner()
+            fragment = fragment_fromstring("<div>" + plugin_content + "</div>")
+            fragment = lxml_cleaner.clean_html(fragment)
+            plugin_content = tostring(fragment, encoding="unicode")
+            if plugin_content.startswith("<div>"):
+                # still dont like lxml!
+                plugin_content = plugin_content[len("<div>") : -len("</div>")]
         plugin_content = strip_tags(plugin_content)
 
     return plugin_content

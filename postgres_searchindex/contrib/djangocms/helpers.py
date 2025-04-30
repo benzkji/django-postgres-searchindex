@@ -11,6 +11,7 @@ try:
 except ImportError:
     lxml_clean = None
 
+
 def _render_plugin(plugin, context, renderer=None):
     if renderer:
         content = renderer.render_plugin(

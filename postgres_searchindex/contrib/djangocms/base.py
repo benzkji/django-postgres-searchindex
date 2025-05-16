@@ -1,4 +1,5 @@
 from cms.models import CMSPlugin
+from django.conf import settings
 
 from postgres_searchindex.contrib.djangocms.helpers import (
     get_plugin_index_content,
@@ -16,8 +17,15 @@ class PlaceholderIndexSourceMixin:
         request = get_request(self.language)
         return self.get_placeholder_content(obj, self.language, request)
 
+    def queryset_exclude_plugins(self, queryset):
+        exclude_plugins = getattr(settings, "POSTGRES_SEARCHINDEX_DJANGOCMS_EXCLUDE_PLUGINS", None)
+        if exclude_plugins:
+            queryset = queryset.exclude(plugin_type__in=exclude_plugins)
+        return queryset
+
     def get_plugin_queryset(self, language):
-        queryset = CMSPlugin.objects.filter(language=language)
+        queryset = CMSPlugin.objects.filter(language=language).order_by("position")
+        queryset = self.queryset_exclude_plugins(queryset)
         return queryset
 
     def get_placeholder_content(self, obj, language, request):

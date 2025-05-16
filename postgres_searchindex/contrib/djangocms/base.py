@@ -18,7 +18,9 @@ class PlaceholderIndexSourceMixin:
         return self.get_placeholder_content(obj, self.language, request)
 
     def queryset_exclude_plugins(self, queryset):
-        exclude_plugins = getattr(settings, "POSTGRES_SEARCHINDEX_DJANGOCMS_EXCLUDE_PLUGINS", None)
+        exclude_plugins = getattr(
+            settings, "POSTGRES_SEARCHINDEX_DJANGOCMS_EXCLUDE_PLUGINS", None
+        )
         if exclude_plugins:
             queryset = queryset.exclude(plugin_type__in=exclude_plugins)
         return queryset

@@ -1,9 +1,7 @@
 import html
 
-from django.utils.translation import override
 from django.utils.html import strip_tags
-
-
+from django.utils.translation import override
 
 from postgres_searchindex.models import IndexEntry
 
@@ -72,7 +70,6 @@ class IndexSource:
         content = strip_tags(content)
         content = html.unescape(content)
         return content
-
 
 
 class MultiLanguageIndexSource(IndexSource):

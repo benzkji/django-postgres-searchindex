@@ -26,6 +26,7 @@ class PlaceholderIndexSourceMixin:
         text = ""
         for base_plugin in plugins:
             text += " " + self.get_plugin_search_text(base_plugin, request)
+        text = self.process_html(text)
         return text
 
     def get_plugin_search_text(self, base_plugin, request):

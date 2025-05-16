@@ -1,8 +1,17 @@
+import html
+
 from django.utils.translation import override
+from django.utils.html import strip_tags
+
+
 
 from postgres_searchindex.models import IndexEntry
 
-# IndexEntry = apps.get_model("postgres_searchindex", "IndexEntry", require_ready=False)
+try:
+    from lxml.html import clean as lxml_clean
+    from lxml.html import fragment_fromstring, tostring
+except ImportError:
+    lxml_clean = None
 
 
 class IndexSource:
@@ -49,6 +58,21 @@ class IndexSource:
 
     def get_json(self, obj):
         pass
+
+    def process_html(self, content):
+        if lxml_clean:
+            # defaults: most strict possible!
+            lxml_cleaner = lxml_clean.Cleaner()
+            fragment = fragment_fromstring("<div>" + content + "</div>")
+            fragment = lxml_cleaner.clean_html(fragment)
+            content = tostring(fragment, encoding="unicode")
+            if content.startswith("<div>"):
+                # still dont like lxml =)
+                content = content[len("<div>") : -len("</div>")]
+        content = strip_tags(content)
+        content = html.unescape(content)
+        return content
+
 
 
 class MultiLanguageIndexSource(IndexSource):

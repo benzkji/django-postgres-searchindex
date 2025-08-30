@@ -1,3 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-postgres-searchindex"
+dynamic = ["version"]
+description = "PostgreSQL full-text search index integration for Django"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+authors = [
+  { name = "Ben Stähli", email = "bnzk@bnzk.ch" },
+]
+keywords = ["django", "search", "index", "postgresql", "fts"]
+requires-python = ">=3.9"
+dependencies = [
+  "django",
+]
+
+[project.urls]
+Homepage = "https://github.com/bnzk/django-postgres-searchindex"
+Changelog = "https://github.com/bnzk/django-postgres-searchindex/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "postgres_searchindex/__init__.py"
+
+[tool.hatch.build]
+packages = ["postgres_searchindex"]
+
+
 [tool.ruff]
 # Enable the pycodestyle (`E`) and Pyflakes (`F`) rules by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or

@@ -5,10 +5,10 @@
 [![Licence](https://img.shields.io/github/license/bnzk/django-postgres-searchindex.svg?style=flat-square "Licence")](https://pypi.python.org/pypi/django-postgres-searchindex/)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/django-postgres-searchindex?style=flat-square "PyPi Downloads")](https://pypistats.org/packages/django-postgres-searchindex)
 
-A bit like django-haystack, but everything in postgres, accessible via Django ORM, using
+Inspired by django-haystack, but everything in postgres via Django ORM, using
 postgres fullext search capabilites. The goal is to ease setup and 
 maintainance for smaller and medium sized projects - without dependencies on
-search technology like elastic, solr or whoosh.
+search technology like elastic, solr or whoosh, without the the haystack layer in between.
 
 During conception, I was thinking about developing a backend for django-haystack, but 
 decided against, to be able to develop from the ground up, as simple as possible. The 

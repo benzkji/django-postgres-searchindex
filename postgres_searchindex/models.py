@@ -9,10 +9,10 @@ class IndexEntryBase(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     index_key = models.CharField(max_length=32, default="default")
-    site_id = models.ForeignKey(
+    site = models.ForeignKey(
         "sites.Site",
         null=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         blank=True,
     )
     # reference original

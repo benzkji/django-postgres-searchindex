@@ -20,6 +20,9 @@ class TitleIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
         """
         return page.placeholders.all()
 
+    def get_site(self, obj):
+        return obj.page.node.site
+
     def get_placeholder_content(self, obj, language, request):
         current_page = obj.page
         placeholders = self.get_page_placeholders(current_page)

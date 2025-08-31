@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.postgres.search import SearchVector
+from django.utils.module_loading import import_string
 from django.views.generic import ListView
 
 from postgres_searchindex.models import IndexEntry
@@ -14,6 +14,7 @@ class SearchForm(forms.Form):
 class SearchView(ListView):
     model = IndexEntry
     template_name = "postgres_searchindex/search.html"
+    paginate_by = conf.PAGINATE_BY
 
     def dispatch(self, request, *args, **kwargs):
         self.form = SearchForm(self.request.GET)
@@ -27,12 +28,6 @@ class SearchView(ListView):
     def get_queryset(self):
         if self.form.is_valid():
             q = self.form.cleaned_data["q"]
-            config = conf.LANGUAGE_2_PGCONFIG.get(self.request.LANGUAGE_CODE, "english")
-            return IndexEntry.objects.annotate(
-                search=SearchVector(
-                    "content",
-                    "title",
-                    config=config,
-                )
-            ).filter(index_key=self.request.LANGUAGE_CODE, search=q)
+            query_func = import_string(conf.QUERY_FUNC)
+            return query_func(q, self.request.LANGUAGE_CODE)
         return IndexEntry.objects.filter(pk=-1)

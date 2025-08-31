@@ -7,14 +7,14 @@ from postgres_searchindex.models import IndexEntry
 from postgres_searchindex.source_pool import source_pool
 
 
-def delete_indexes():
+def delete_index():
     IndexEntry.objects.all().delete()
 
 
-def update_indexes():
+def update_index(stdout):
     for index_key, index in conf.POSTGRES_SEARCHINDEX.items():
-        sys.stdout.write("====================================")
-        sys.stdout.write(
+        stdout.write("====================================")
+        stdout.write(
             f"Updating index \"{index_key}\" with kwargs {index.get('kwargs', {})}"
         )
         for source_cls in source_pool.get_sources().values():
@@ -23,6 +23,7 @@ def update_indexes():
                 f"{source.model.__name__}. "
                 f"Indexing {source.get_queryset().count()} entries"
             )
+            stdout.flush()
             # index
             current_ids = []
             for obj in source.get_queryset():
@@ -37,4 +38,4 @@ def update_indexes():
                 object_id__in=current_ids,
             )
             delete_result = to_delete.delete()
-            sys.stdout.write(f"> Done. Removed from index: {delete_result[0]}")
+            stdout.write(f" > Done. Removed from index: {delete_result[0]}")

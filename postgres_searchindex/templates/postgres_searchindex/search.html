@@ -14,31 +14,52 @@
             </div>
         </form>
 
-        {% for object in object_list %}
+        {% if page_obj|length %}
+            <div class="search-results">
+                {% for object in page_obj %}
+                    <a class="search-result" href="{{ object.url }}">
+                        <div class="search-result__inner">
+                            <div class="search-result__image">
+                                {% if object.original.image %}
+                                    {% thumbnail object.original.image 300x300 as resized %}
+                                    <img src="{{ resized.url }}" alt="{{ object.title }}" />
+                                {% endif %}
+                            </div>
+                            <div class="search-result__content">
+                                <h3>
+                                    {{ object.title }}
+                                </h3>
+                                <p>
+                                    {{ object.content|truncatechars:150 }}
+                                </p>
+                                <p>
+                                    {{ object.url }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
 
-            <a class="search-result" href="{{ object.url }}">
-                <div class="search-result__inner">
-                    <div class="search-result__image">
-                        {% if object.original.image %}
-                            {% thumbnail object.original.image 300x300 as resized %}
-                            <img src="{{ resized.url }}" alt="{{ object.title }}" />
-                        {% endif %}
-                    </div>
-                    <div class="search-result__content">
-                        <h3>
-                            {{ object.title }}
-                        </h3>
-                        <p>
-                            {{ object.content|truncatechars:150 }}
-                        <p>
-                        </p>
-                            {{ object.url }}
-                        </p>
-                    </div>
-                </div>
-            </a>
+            <div class=" pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?">&laquo; {% trans "first" %}</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a>
+                    {% endif %}
 
-        {% empty %}
+                    <span class="current">
+                        {% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}.
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">{% trans "nächste" %}</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">{% trans "letzte" %} &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+
+        {% else %}
             {% if request.GET.q %}
             <div class="search-result">
                 <div class="search-result__inner">
@@ -48,7 +69,9 @@
                 </div>
             </div>
             {% endif %}
-        {% endfor %}
+        {% endif %}
+
+
     </div>
 
 {% endblock %}

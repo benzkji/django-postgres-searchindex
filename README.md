@@ -1,9 +1,12 @@
 # django-postgres-searchindex
 
-[![CI](https://img.shields.io/github/actions/workflow/status/bnzk/django-postgres-searchindex/ci.yml?style=flat-square&logo=github "CI")](https://github.com/bnzk/django-postgres-searchindex/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/pypi/v/django-postgres-searchindex.svg?style=flat-square "Version")](https://pypi.python.org/pypi/django-postgres-searchindex/)
-[![Licence](https://img.shields.io/github/license/bnzk/django-postgres-searchindex.svg?style=flat-square "Licence")](https://pypi.python.org/pypi/django-postgres-searchindex/)
-[![PyPI Downloads](https://img.shields.io/pypi/dm/django-postgres-searchindex?style=flat-square "PyPi Downloads")](https://pypistats.org/packages/django-postgres-searchindex)
+[//]: # ([![CI]&#40;https://img.shields.io/github/actions/workflow/status/bnzk/django-postgres-searchindex/ci.yml?style=flat-square&logo=github "CI"&#41;]&#40;https://github.com/bnzk/django-postgres-searchindex/actions/workflows/ci.yml&#41;)
+
+[//]: # ([![Version]&#40;https://img.shields.io/pypi/v/django-postgres-searchindex.svg?style=flat-square "Version"&#41;]&#40;https://pypi.python.org/pypi/django-postgres-searchindex/&#41;)
+
+[//]: # ([![Licence]&#40;https://img.shields.io/github/license/bnzk/django-postgres-searchindex.svg?style=flat-square "Licence"&#41;]&#40;https://pypi.python.org/pypi/django-postgres-searchindex/&#41;)
+
+[//]: # ([![PyPI Downloads]&#40;https://img.shields.io/pypi/dm/django-postgres-searchindex?style=flat-square "PyPi Downloads"&#41;]&#40;https://pypistats.org/packages/django-postgres-searchindex&#41;)
 
 Inspired by django-haystack, but everything in postgres via Django ORM, using
 postgres fullext search capabilites. The goal is to ease setup and 
@@ -143,6 +146,20 @@ There are ~~two~~ currently ~~one~~ none (not yet) builtin processors:
 
 The async signal processor will require you to have celery configured.
 
+
+## Settings Overview
+
+POSTGRES_SEARCHINDEX - index config - {
+        "default": {},
+    },  
+POSTGRES_SEARCHINDEX_QUERY_FUNC - search function for builtin search view - "postgres_searchindex.query_helpers.basic_search_with_ranking"
+POSTGRES_SEARCHINDEX_LANGUAGE_2_PGCONFIG" - {
+        "en": "english",
+        "de": "german",
+        "fr": "french",
+    }
+)  
+POSTGRES_SEARCHINDEX_PAGINATE_BY - 20
 
 ## contrib.djangocms
 

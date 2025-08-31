@@ -7,13 +7,16 @@ from .models import IndexEntry
 class IndexEntryAdmin(admin.ModelAdmin):
     list_display_links = ("title",)
     list_display = (
-        "index_key",
         "title",
+        "site",
+        "index_key",
+        "content_type",
         "url",
         "modified_at",
     )
     search_fields = ("title", "content")
     list_filter = (
+        "site",
         "index_key",
         "content_type",
     )

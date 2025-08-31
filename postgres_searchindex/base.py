@@ -1,5 +1,7 @@
 import html
 
+from django.conf import settings
+from django.contrib.sites.models import Site
 from django.utils.html import strip_tags
 from django.utils.translation import override
 
@@ -29,6 +31,7 @@ class IndexSource:
             "title": self.get_title(obj),
             "content": self.get_content(obj),
             "url": self.get_url(obj),
+            "site": self.get_site(obj),
         }
         return data
 
@@ -43,16 +46,26 @@ class IndexSource:
         index_entry.title = data["title"]
         index_entry.content = str(data["content"])
         index_entry.url = data["url"]
+        if not isinstance(data["site"], Site):
+            index_entry.site_id = data["site"]
+        else:
+            index_entry.site_id = data["site"]
         index_entry.save()
 
     def get_title(self, obj):
-        return getattr(obj, "title", "")
+        t = getattr(obj, "title", "")
+        if not t:
+            return str(obj)
+        return t
 
     def get_content(self, obj):
         return getattr(obj, "content", "")
 
     def get_url(self, obj):
         return obj.get_absolute_url()
+
+    def get_site(self, obj):
+        return settings.SITE_ID
 
     def get_json(self, obj):
         pass

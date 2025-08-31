@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from postgres_searchindex.management.indexing import delete_indexes, update_indexes
+from postgres_searchindex.management.indexing import delete_index, update_index
 
 
 class Command(BaseCommand):
@@ -27,6 +27,6 @@ class Command(BaseCommand):
                 return
 
         self.stdout.write(self.style.SUCCESS("Starting the reindexing process..."))
-        delete_indexes()
-        update_indexes()
+        delete_index()
+        update_index(self.stdout)
         self.stdout.write(self.style.SUCCESS("Reindexing completed successfully!"))

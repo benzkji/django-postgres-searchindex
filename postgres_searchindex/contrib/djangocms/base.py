@@ -26,7 +26,9 @@ class PlaceholderIndexSourceMixin:
         return queryset
 
     def get_plugin_queryset(self, language):
-        queryset = CMSPlugin.objects.filter(language=language).order_by("position")
+        queryset = CMSPlugin.objects.filter(language=language).order_by(
+            "depth", "position"
+        )
         queryset = self.queryset_exclude_plugins(queryset)
         return queryset
 

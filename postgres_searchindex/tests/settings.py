@@ -21,7 +21,7 @@ LANGUAGE_CODE = "en"
 LANGUAGES = (
     (
         "en",
-        "ENGLISHS",
+        "ENGLISH",
     ),
 )
 

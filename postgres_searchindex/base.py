@@ -3,8 +3,10 @@ import html
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.utils.html import strip_tags
+from django.utils.module_loading import import_string
 from django.utils.translation import override
 
+from postgres_searchindex import conf
 from postgres_searchindex.models import IndexEntry
 
 try:
@@ -46,6 +48,8 @@ class IndexSource:
         index_entry.title = data["title"]
         index_entry.content = str(data["content"])
         index_entry.url = data["url"]
+        search_vector_func = import_string(conf.SEARCH_VECTOR_FUNC)
+        search_vector_func(index_entry)
         if not isinstance(data["site"], Site):
             index_entry.site_id = data["site"]
         else:

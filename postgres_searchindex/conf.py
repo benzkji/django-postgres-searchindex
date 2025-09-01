@@ -13,7 +13,12 @@ POSTGRES_SEARCHINDEX = getattr(
 QUERY_FUNC = getattr(
     settings,
     "POSTGRES_SEARCHINDEX_QUERY_FUNC",
-    "postgres_searchindex.query_helpers.basic_search_with_ranking",
+    "postgres_searchindex.helpers.basic_search_using_searchvector",
+)
+SEARCH_VECTOR_FUNC = getattr(
+    settings,
+    "POSTGRES_SEARCHINDEX_QUERY_FUNC",
+    "postgres_searchindex.helpers.update_search_vector_weighted_a_d",
 )
 LANGUAGE_2_PGCONFIG = getattr(
     settings,

@@ -1,13 +1,9 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.indexes import GinIndex
-from django.contrib.postgres.search import SearchVector, SearchVectorField
+from django.contrib.postgres.search import SearchVectorField
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 from django.utils import timezone
-
-from postgres_searchindex import conf
 
 
 class IndexEntryBase(models.Model):
@@ -52,14 +48,3 @@ class IndexEntryBase(models.Model):
 
 class IndexEntry(IndexEntryBase):
     pass
-
-
-@receiver(pre_save, sender=IndexEntry)
-def update_search_vector(sender, instance, **kwargs):
-    return instance  # not yet ready
-
-    config = conf.LANGUAGE_2_PGCONFIG.get(instance.index_key, "english")
-    instance.search_vector = SearchVector(
-        "title", weight="A", config=config
-    ) + SearchVector("content", weight="D", config=config)
-    return instance

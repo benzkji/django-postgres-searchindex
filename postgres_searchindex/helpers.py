@@ -5,6 +5,24 @@ from django.db.models import F
 from postgres_searchindex import conf
 from postgres_searchindex.models import IndexEntry
 
+###############################################################
+##### search vector updating
+###############################################################
+
+
+def update_search_vector_weighted_a_d(obj):
+    config = conf.LANGUAGE_2_PGCONFIG.get(obj.index_key, "english")
+    obj.search_vector = SearchVector("title", weight="A", config=config) + SearchVector(
+        "content", weight="D", config=config
+    )
+    obj.save()
+    return obj
+
+
+###############################################################
+##### somesearch functions
+###############################################################
+
 
 def basic_search(q, language_code):
     config = conf.LANGUAGE_2_PGCONFIG.get(language_code, "english")
@@ -48,7 +66,7 @@ def basic_search_with_ranking(q, language_code):
     return qs
 
 
-def basic_search_using_searchvector_index(q, language_code):
+def basic_search_using_searchvector(q, language_code):
     qs = (
         IndexEntry.objects.annotate(rank=SearchRank(F("search_vector"), q))
         .filter(

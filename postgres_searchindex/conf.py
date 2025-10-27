@@ -17,7 +17,7 @@ QUERY_FUNC = getattr(
 )
 SEARCH_VECTOR_FUNC = getattr(
     settings,
-    "POSTGRES_SEARCHINDEX_QUERY_FUNC",
+    "POSTGRES_SEARCHINDEX_SEARCH_VECTOR_FUNC",
     "postgres_searchindex.helpers.update_search_vector_weighted_a_d",
 )
 LANGUAGE_2_PGCONFIG = getattr(

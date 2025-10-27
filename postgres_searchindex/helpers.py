@@ -49,7 +49,7 @@ def basic_search_with_ranking(q, language_code):
     search_vector = SearchVector("title", weight="A", config=config) + SearchVector(
         "content", weight="D", config=config
     )
-    search_query = SearchQuery(q)
+    search_query = SearchQuery(q, config=config)
     qs = (
         IndexEntry.objects.annotate(
             search=search_vector,
@@ -58,7 +58,7 @@ def basic_search_with_ranking(q, language_code):
         .filter(
             site_id=settings.SITE_ID,
             index_key=language_code,
-            search=q,
+            search=search_query,
         )
         .order_by("-rank")
         .distinct()
@@ -67,12 +67,14 @@ def basic_search_with_ranking(q, language_code):
 
 
 def basic_search_using_searchvector(q, language_code):
+    config = conf.LANGUAGE_2_PGCONFIG.get(language_code, "english")
+    search_query = SearchQuery(q, config=config)
     qs = (
-        IndexEntry.objects.annotate(rank=SearchRank(F("search_vector"), q))
+        IndexEntry.objects.annotate(rank=SearchRank(F("search_vector"), search_query))
         .filter(
             site_id=settings.SITE_ID,
             index_key=language_code,
-            search_vector=q,
+            search_vector=search_query,
         )
         .order_by("-rank")
         .distinct()

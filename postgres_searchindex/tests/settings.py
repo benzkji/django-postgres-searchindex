@@ -2,20 +2,23 @@ import logging
 import os
 import tempfile
 
+import environ
+
+APP_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ENV_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(ENV_ROOT, ".env"))
+
 DEBUG = True
 
 logging.getLogger("factory").setLevel(logging.WARN)
 
 SITE_ID = 1
 
-APP_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "db.sqlite",
-    }
-}
+DB_CONF = env.db()
+DATABASES = {"default": DB_CONF}
 
 LANGUAGE_CODE = "en"
 LANGUAGES = (

@@ -58,10 +58,12 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
             queryset = queryset.select_related("page__node")
             return queryset.distinct()
         else:
+            from djangocms_versioning.constants import PUBLISHED
+
             queryset = PageContent.objects.filter(
                 Q(versions__state=PUBLISHED),
                 Q(redirect__exact="") | Q(redirect__isnull=True),
-                language=language,
+                language=self.language,
             ).select_related("page")
             if GTE_CMS_35 and not GTE_CMS_50:
                 queryset = queryset.select_related("page__node")

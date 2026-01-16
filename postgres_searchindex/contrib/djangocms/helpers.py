@@ -1,4 +1,3 @@
-from cms.toolbar.toolbar import CMSToolbar
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.template import Engine, RequestContext
@@ -77,6 +76,8 @@ def get_request(language=None):
     """
     Returns a Request instance populated with cms specific attributes.
     """
+    from cms.toolbar.toolbar import CMSToolbar
+
     request_factory = RequestFactory(HTTP_HOST=settings.ALLOWED_HOSTS[0])
     request = request_factory.get("/")
     request.session = {}

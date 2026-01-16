@@ -1,4 +1,3 @@
-from cms.models import Title
 from django.db.models import Q
 from django.utils import timezone
 
@@ -7,9 +6,15 @@ from postgres_searchindex.base import MultiLanguageIndexSource
 from postgres_searchindex.contrib.djangocms.base import PlaceholderIndexSourceMixin
 from postgres_searchindex.source_pool import source_pool
 
+# django CMS v4
+try:
+    from cms.models import PageContent
+# django CMS 3.x
+except ImportError:
+    from cms.models import Title as PageContent
 
-class TitleIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
-    model = Title
+class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
+    model = PageContent
 
     def get_url(self, obj):
         return obj.page.get_absolute_url()
@@ -36,7 +41,7 @@ class TitleIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
 
     def get_queryset(self):
         queryset = (
-            Title.objects.public()
+            PageContent.objects.public()
             .filter(
                 Q(page__publication_date__lt=timezone.now())
                 | Q(page__publication_date__isnull=True),
@@ -53,4 +58,4 @@ class TitleIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
 
 
 if conf.USE_CMS_INDEX:
-    source_pool.register(TitleIndexSource)
+    source_pool.register(PageContentIndexSource)

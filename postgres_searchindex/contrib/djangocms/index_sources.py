@@ -4,6 +4,7 @@ from django.utils import timezone
 from postgres_searchindex import conf
 from postgres_searchindex.base import MultiLanguageIndexSource
 from postgres_searchindex.contrib.djangocms.base import PlaceholderIndexSourceMixin
+from postgres_searchindex.contrib.djangocms.compat import LT_CMS_40
 from postgres_searchindex.source_pool import source_pool
 
 # django CMS v4
@@ -40,21 +41,29 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
         return text
 
     def get_queryset(self):
-        queryset = (
-            PageContent.objects.public()
-            .filter(
-                Q(page__publication_date__lt=timezone.now())
-                | Q(page__publication_date__isnull=True),
-                Q(page__publication_end_date__gte=timezone.now())
-                | Q(page__publication_end_date__isnull=True),
-                Q(redirect__exact="") | Q(redirect__isnull=True),
-                language=self.language,
+        if LT_CMS_40:
+            queryset = (
+                PageContent.objects.public()
+                .filter(
+                    Q(page__publication_date__lt=timezone.now())
+                    | Q(page__publication_date__isnull=True),
+                    Q(page__publication_end_date__gte=timezone.now())
+                    | Q(page__publication_end_date__isnull=True),
+                    Q(redirect__exact="") | Q(redirect__isnull=True),
+                    language=self.language,
+                )
+                .select_related("page")
             )
-            .select_related("page")
-        )
-        # if GTE_CMS_35:
-        queryset = queryset.select_related("page__node")
-        return queryset.distinct()
+            queryset = queryset.select_related("page__node")
+            return queryset.distinct()
+        else:
+            queryset = PageContent.objects.filter(
+                Q(versions__state=PUBLISHED),
+                Q(redirect__exact="") | Q(redirect__isnull=True),
+                language=language,
+            ).select_related("page")
+            if GTE_CMS_35 and not GTE_CMS_50:
+                queryset = queryset.select_related("page__node")
 
 
 if conf.USE_CMS_INDEX:

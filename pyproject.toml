@@ -15,6 +15,7 @@ keywords = ["django", "search", "index", "postgresql", "fts"]
 requires-python = ">=3.9"
 dependencies = [
   "django",
+  "looseversion",
 ]
 
 [project.urls]

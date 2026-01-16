@@ -14,6 +14,7 @@ try:
 except ImportError:
     from cms.models import Title as PageContent
 
+
 class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSource):
     model = PageContent
 

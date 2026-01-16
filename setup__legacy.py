@@ -26,6 +26,7 @@ For more information on creating source distributions, see
 http://docs.python.org/2/distutils/sourcedist.html
 
 """
+
 import os
 
 from setuptools import find_packages, setup

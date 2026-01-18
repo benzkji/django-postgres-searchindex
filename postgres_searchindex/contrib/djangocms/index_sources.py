@@ -29,7 +29,7 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
         """
         one day: allow specific configs, to include/exclude placeholders from indexing
         """
-        return page.placeholders.all()
+        return page.get_placeholders()
 
     def get_site(self, obj):
         return obj.page.node.site

@@ -1,6 +1,7 @@
 # mainly to have migrations compatible with the oldest supported django version
 django<6
 django-cms<3.9
+djangocms-versioning
 
 # dev & test utils, so you can do a quick manage.py test without tox (that is, included as well)
 pre-commit

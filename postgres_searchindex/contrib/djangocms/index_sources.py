@@ -74,5 +74,7 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
         return queryset
 
 
+TitleIndexSource = PageContentIndexSource
+
 if conf.USE_CMS_INDEX:
     source_pool.register(PageContentIndexSource)

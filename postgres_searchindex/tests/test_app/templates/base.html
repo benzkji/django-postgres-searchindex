@@ -1,0 +1,40 @@
+{% load cms_tags menu_tags sekizai_tags %}
+<html>
+<head>
+
+{% render_block 'css' %}
+
+</head>
+<body>
+
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}autopublisher/css/autopublisher.css">
+<link rel="stylesheet" media="screen" href="{{ STATIC_URL }}djangocms_misc/css/cms_frontend_adjust.css">
+
+{% cms_toolbar %}
+
+<div>
+    <h2>Language</h2>
+    {% language_chooser %}
+</div>
+
+<div>
+    <h2>Menu</h2>
+    {% show_menu 0 5 5 5 %}
+</div>
+
+<div>
+    <h2>Placeholders</h2>
+    <h3>Translated (default)</h3>
+    {% placeholder 'translated_placeholder' %}
+    <h3>Untranslated</h3>
+    {% placeholder 'untranslated_placeholder' %}
+    <h3>Editmode Fallback</h3>
+    {% placeholder 'editmode_fallback_placeholder' %}
+    <h3>Static Placeholder</h3>
+    {% static_placeholder 'static_placeholder' %}
+</div>
+
+{% render_block 'js' %}
+
+</body>
+</html>

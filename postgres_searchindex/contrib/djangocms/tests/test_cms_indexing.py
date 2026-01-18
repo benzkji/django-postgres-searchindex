@@ -1,0 +1,31 @@
+from cms.api import add_plugin, create_page, create_title
+from django.test import Client
+from django.test.testcases import TestCase
+
+from postgres_searchindex.tests.test_app.cms_plugins import TestPlugin
+
+
+class CMSIndexingTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        # u = self._create_user("test", True, True)
+        # self._login_context = self.login_user_context(u)
+        # self._login_context.__enter__()
+
+    def tearDown(self):
+        pass
+        # self._login_context.__exit__(None, None, None)
+
+    def test_basic(self):
+        """Tests untranslated placeholder configuration"""
+        page = create_page("page_en", "base.html", "en")
+        create_title("de", "page_de", page)
+        placeholder_en = page.placeholders.get(slot="untranslated_placeholder")
+        add_plugin(placeholder_en, TestPlugin, "en", field1="en field1")
+
+        # English page should have the text plugin
+        content_en = self.client.get(page.get_absolute_url())
+        self.assertRegex(str(content_en.content), "en field1")
+        # Deutsch page have text due to untranslated
+        content_de = self.client.get(page.get_absolute_url("de"))
+        self.assertRegex(str(content_de.content), "en field1")

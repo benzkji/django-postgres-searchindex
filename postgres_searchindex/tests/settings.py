@@ -22,10 +22,9 @@ DATABASES = {"default": DB_CONF}
 
 LANGUAGE_CODE = "en"
 LANGUAGES = (
-    (
-        "en",
-        "ENGLISH",
-    ),
+    ("en", "English"),
+    ("de", "Deutsch"),
+    ("fr", "Frentsch"),
 )
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -40,6 +39,7 @@ STATIC_ROOT = os.path.join(APP_ROOT, "../test_app_static")
 STATICFILES_DIRS = (os.path.join(APP_ROOT, "static"),)
 
 CMS_CONFIRM_VERSION4 = True
+CMS_TEMPLATES = (("base.html", "Default"),)
 
 COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(os.path.join(APP_ROOT, "tests/coverage"))
 COVERAGE_MODULE_EXCLUDES = [

@@ -25,18 +25,18 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
     def get_url(self, obj):
         return obj.page.get_absolute_url()
 
-    def get_page_placeholders(self, page):
+    def get_page_placeholders(self, page, language):
         """
         one day: allow specific configs, to include/exclude placeholders from indexing
         """
-        return page.get_placeholders()
+        return page.get_placeholders(language)
 
     def get_site(self, obj):
         return obj.page.node.site
 
     def get_placeholder_content(self, obj, language, request):
         current_page = obj.page
-        placeholders = self.get_page_placeholders(current_page)
+        placeholders = self.get_page_placeholders(current_page, language)
         plugins = self.get_plugin_queryset(language).filter(
             placeholder__in=placeholders
         )

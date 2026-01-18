@@ -39,6 +39,8 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(APP_ROOT, "../test_app_static")
 STATICFILES_DIRS = (os.path.join(APP_ROOT, "static"),)
 
+CMS_CONFIRM_VERSION4 = True
+
 COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(os.path.join(APP_ROOT, "tests/coverage"))
 COVERAGE_MODULE_EXCLUDES = [
     "tests$",

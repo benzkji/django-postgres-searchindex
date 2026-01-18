@@ -60,7 +60,7 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
                 .select_related("page")
             )
             queryset = queryset.select_related("page__node")
-            return queryset.distinct()
+            queryset = queryset.distinct()
         else:
             from djangocms_versioning.constants import PUBLISHED
 
@@ -70,7 +70,8 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
                 language=self.language,
             ).select_related("page")
             if GTE_CMS_35 and not GTE_CMS_50:
-                queryset = queryset.select_related("page__node")
+                queryset = queryset.select_related("page__node").distinct()
+        return queryset
 
 
 if conf.USE_CMS_INDEX:

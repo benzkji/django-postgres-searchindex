@@ -16,7 +16,6 @@ logging.getLogger("factory").setLevel(logging.WARN)
 
 SITE_ID = 1
 
-
 DB_CONF = env.db()
 DATABASES = {"default": DB_CONF}
 
@@ -41,6 +40,14 @@ STATICFILES_DIRS = (os.path.join(APP_ROOT, "static"),)
 CMS_CONFIRM_VERSION4 = True
 CMS_TEMPLATES = (("base.html", "Default"),)
 
+POSTGRES_SEARCHINDEX = {
+    "en": {
+        "kwargs": {
+            "language": "en",
+        }
+    },
+}
+
 COVERAGE_REPORT_HTML_OUTPUT_DIR = os.path.join(os.path.join(APP_ROOT, "tests/coverage"))
 COVERAGE_MODULE_EXCLUDES = [
     "tests$",
@@ -63,12 +70,14 @@ EXTERNAL_APPS = (
     "django.contrib.sitemaps",
     "django.contrib.sites",
     "cms",
+    "djangocms_versioning",
     "treebeard",
     "menus",
     "sekizai",
 )
 INTERNAL_APPS = (
     "postgres_searchindex",
+    "postgres_searchindex.contrib.djangocms",
     "postgres_searchindex.tests.test_app",
 )
 

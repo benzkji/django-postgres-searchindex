@@ -29,7 +29,8 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
         """
         one day: allow specific configs, to include/exclude placeholders from indexing
         """
-        return page.get_placeholders(language)
+        phs = page.get_placeholders() if LT_CMS_40 else page.get_placeholders(language)
+        return phs
 
     def get_site(self, obj):
         return obj.page.node.site
@@ -62,13 +63,17 @@ class PageContentIndexSource(PlaceholderIndexSourceMixin, MultiLanguageIndexSour
             queryset = queryset.select_related("page__node")
             queryset = queryset.distinct()
         else:
-            from djangocms_versioning.constants import PUBLISHED
-
-            queryset = PageContent.objects.filter(
-                Q(versions__state=PUBLISHED),
+            filters = Q(
                 Q(redirect__exact="") | Q(redirect__isnull=True),
                 language=self.language,
-            ).select_related("page")
+            )
+            try:
+                from djangocms_versioning.constants import PUBLISHED
+
+                filters &= Q(versions__state=PUBLISHED)
+            except ImportError:
+                pass
+            queryset = PageContent.objects.filter(filters).select_related("page")
             if GTE_CMS_35 and not GTE_CMS_50:
                 queryset = queryset.select_related("page__node").distinct()
         return queryset

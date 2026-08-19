@@ -3,6 +3,9 @@ django<6
 django-cms<6
 djangocms-versioning
 
+# package runtime deps, so you can do a quick manage.py test without installing the package
+looseversion
+
 # dev & test utils, so you can do a quick manage.py test without tox (that is, included as well)
 pre-commit
 coverage

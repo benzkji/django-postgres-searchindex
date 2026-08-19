@@ -1,4 +1,4 @@
-from cms.api import add_plugin, create_page, create_title
+from cms.api import add_plugin, create_page, create_page_content
 from cms.models import PageContent
 from cms.utils.placeholder import rescan_placeholders_for_obj
 from django.contrib.auth.models import User
@@ -23,7 +23,7 @@ class CMSIndexingTests(TestCase):
         user = User.objects.create_superuser("admin", "", "admin")
 
         page = create_page("page_en", "base.html", "en", created_by=user)
-        create_title("de", "page_de", page, created_by=user)
+        create_page_content("de", "page_de", page, created_by=user)
         page_content_en = PageContent.admin_manager.filter(
             page=page, language="en"
         ).first()

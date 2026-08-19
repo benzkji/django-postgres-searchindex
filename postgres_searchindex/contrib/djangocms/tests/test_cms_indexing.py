@@ -43,3 +43,18 @@ class CMSIndexingTests(TestCase):
         call_command("postgres_searchindex_update")
         qs = IndexEntry.objects.all()
         self.assertEqual(qs.filter(content__contains=the_content).count(), 1)
+
+    def test_page_without_url_is_dropped_from_index(self):
+        user = User.objects.create_superuser("admin", "", "admin")
+        page = create_page("page_en", "base.html", "en", created_by=user)
+        page_content_en = PageContent.admin_manager.filter(
+            page=page, language="en"
+        ).first()
+        Version.objects.get_for_content(page_content_en).publish(user)
+        call_command("postgres_searchindex_update")
+        self.assertEqual(IndexEntry.objects.count(), 1)
+        # published page content without any url: must not crash the rebuild,
+        # and the now unreachable entry must be removed from the index
+        page.urls.all().delete()
+        call_command("postgres_searchindex_update")
+        self.assertEqual(IndexEntry.objects.count(), 0)

@@ -39,12 +39,17 @@ class IndexSource:
 
     def update(self, index_key, obj):
         kwargs = {self.get_related_query_name(): obj}
+        data = self.get_data(obj)
+        if data["url"] is None:
+            # not reachable (e.g. cms page without url in this language),
+            # so it cannot be linked in search results: drop it from the index
+            obj.index_entries.filter(index_key=index_key).delete()
+            return
         # why not get_or_create? because generic foreign key.
         try:
             index_entry = IndexEntry.objects.get(index_key=index_key, **kwargs)
         except IndexEntry.DoesNotExist:
             index_entry = obj.index_entries.create(index_key=index_key)
-        data = self.get_data(obj)
         index_entry.title = data["title"]
         index_entry.content = str(data["content"])
         index_entry.url = data["url"]
